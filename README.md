@@ -18,17 +18,8 @@ This repository serves as a personal sandbox for exploring the Go programming la
 ## 🗂️ Structure
 
 The repository is organized as follows:
-├── basics/
-│   ├── variables/
-│   ├── control-structures/
-│   └── functions/
-├── data-structures/
-│   ├── arrays/
-│   ├── slices/
-│   └── maps/
-├── concurrency/
-├── web/
-└── algorithms/
+![image](https://github.com/Aviral0702/Golang-HC/assets/134831178/fe04cefb-8160-49af-accf-51eebc4d3d44)
+
 
 Each directory contains Go files related to specific topics or projects.
 
