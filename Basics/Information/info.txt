@@ -1,0 +1,93 @@
+Certainly. These environment variables are related to your Go installation and configuration. I'll explain each in detail:
+
+1. GO111MODULE='':
+   - Controls the module support in Go. When empty, it uses the default behavior (module mode).
+
+2. GOARCH='amd64':
+   - Indicates the target architecture. 'amd64' means 64-bit x86 processors.
+
+3. GOBIN='':
+   - The directory where Go installs executables. When empty, it defaults to $GOPATH/bin.
+
+4. GOCACHE='/home/aviral-asthana07/.cache/go-build':
+   - The directory where Go stores compiled packages and build outputs for reuse.
+
+5. GOENV='/home/aviral-asthana07/.config/go/env':
+   - The location of the Go environment configuration file.
+
+6. GOEXE='':
+   - The executable file name suffix (empty on Linux, '.exe' on Windows).
+
+7. GOEXPERIMENT='':
+   - Used to enable experimental features in Go. Empty means no experiments are enabled.
+
+8. GOFLAGS='':
+   - Additional flags to pass to go commands by default.
+
+9. GOHOSTARCH='amd64':
+   - The architecture of the host machine running Go.
+
+10. GOHOSTOS='linux':
+    - The operating system of the host machine.
+
+11. GOINSECURE='':
+    - Comma-separated list of glob patterns for insecure package paths.
+
+12. GOMODCACHE='/home/aviral-asthana07/go/pkg/mod':
+    - The directory where Go stores downloaded modules.
+
+13. GONOPROXY, GONOSUMDB, GOPRIVATE='':
+    - These control which modules are fetched directly from version control instead of using the module proxy or checksum database.
+
+14. GOOS='linux':
+    - The target operating system for which you're compiling.
+
+15. GOPATH='/home/aviral-asthana07/go':
+    - The root of your Go workspace.
+
+16. GOPROXY='https://proxy.golang.org,direct':
+    - The Go module proxy to use for downloading modules.
+
+17. GOROOT='/snap/go/10660':
+    - The root directory of your Go installation.
+
+18. GOSUMDB='sum.golang.org':
+    - The checksum database to use for verifying downloaded modules.
+
+19. GOTMPDIR='':
+    - Directory for temporary files. If empty, Go uses the system's temporary directory.
+
+20. GOTOOLCHAIN='auto':
+    - Specifies which Go toolchain to use. 'auto' means it selects automatically.
+
+21. GOTOOLDIR='/snap/go/10660/pkg/tool/linux_amd64':
+    - The directory containing Go tools.
+
+22. GOVERSION='go1.22.5':
+    - The version of Go you're using.
+
+23. GCCGO='gccgo':
+    - The command to run the gccgo compiler.
+
+24. GOAMD64='v1':
+    - Specifies the AMD64 micro-architecture level.
+
+25. AR, CC, CXX:
+    - Commands for the archiver, C compiler, and C++ compiler respectively.
+
+26. CGO_ENABLED='1':
+    - Indicates that cgo (which allows calling C code from Go) is enabled.
+
+27. GOMOD='/dev/null':
+    - The path to the go.mod file. '/dev/null' indicates no module is in use.
+
+28. CGO_CFLAGS, CGO_CPPFLAGS, CGO_CXXFLAGS, CGO_FFLAGS, CGO_LDFLAGS:
+    - Flags passed to the C compiler when using cgo.
+
+29. PKG_CONFIG='pkg-config':
+    - The command to run pkg-config, used for finding system libraries.
+
+30. GOGCCFLAGS:
+    - Additional GCC flags used when compiling Go with GCC.
+
+These environment variables define the setup and behavior of your Go development environment, including compilation targets, tool locations, and various configuration options.
