@@ -9,7 +9,8 @@ import (
 
 func main() {
 	fmt.Println("Welcome to get request program")
-	performGetReq()
+	// performGetReq()
+	performPostReq()
 }
 
 func performGetReq() {
@@ -31,4 +32,26 @@ func performGetReq() {
 	fmt.Println("Byte count: ", byteCount)
 	fmt.Println("Response is here: ", responseString.String())
 	// fmt.Println("Response is here: ", content)
+}
+
+func performPostReq() {
+	const url = "http://localhost:8000/post"
+
+	//fake json payload
+	payload := strings.NewReader(`
+		{
+			"coursename":"golang",
+			"price":0,
+			"platform":"udemy"
+		}
+	`)
+	resp, err := http.Post(url, "application/json", payload)
+
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	content, _ := io.ReadAll(resp.Body)
+	fmt.Println("Response is here: ", string(content))
 }
