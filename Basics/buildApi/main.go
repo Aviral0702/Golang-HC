@@ -4,7 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
+	"strconv"
+	"time"
 
 	"github.com/gorilla/mux"
 )
@@ -59,4 +62,29 @@ func getOneCourse(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode("No course found with given id")
 	return
 
+}
+func addOneCourse(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Adding one course here")
+	w.Header().Set("Content-Type", "application/json")
+
+	//if the response is nil then:
+	if r.Body == nil {
+		json.NewEncoder(w).Encode("Empty body has been passed")
+	}
+
+	var newCourse Course
+	//if the given array is empty
+	_ = json.NewDecoder(r.Body).Decode(&newCourse)
+
+	if newCourse.IsEmpty() {
+		json.NewEncoder(w).Encode("Course list is empty")
+	}
+
+	//generate unique id for every course
+
+	rand.Seed(time.Now().UnixNano())
+	newCourse.CourseId = strconv.Itoa(rand.Intn(100))
+	mycourses = append(mycourses, newCourse)
+	json.NewEncoder(w).Encode(newCourse)
+	return
 }
