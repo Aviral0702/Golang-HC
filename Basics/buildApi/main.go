@@ -31,9 +31,19 @@ func (c *Course) IsEmpty() bool {
 }
 
 func main() {
+	//seeding data
+	mycourses = append(mycourses, Course{CourseId: "1", CourseName: "Java", CoursePrice: "1000", Author: Author{FullName: "John Doe", Website: "www.johndoe.com"}})
+	mycourses = append(mycourses, Course{CourseId: "2", CourseName: "Python", CoursePrice: "2000", Author: Author{FullName: "Jane Doe", Website: "www.janedoe.com"}})
+	mycourses = append(mycourses, Course{CourseId: "3", CourseName: "Golang", CoursePrice: "3000", Author: Author{FullName: "John Doe", Website: "www.johndoe.com"}})
+
 	r := mux.NewRouter()
 	r.HandleFunc("/", serveHome).Methods("GET")
-	log.Fatal(http.ListenAndServe(":4000", r))
+	r.HandleFunc("/course", getAllCourses).Methods("GET")
+	r.HandleFunc("/course/{id}", getOneCourse).Methods("GET")
+	r.HandleFunc("/course", addOneCourse).Methods("POST")
+	r.HandleFunc("/course/{id}", updateOneCourse).Methods("PUT")
+	r.HandleFunc("/course/{id}", deleteOneCourse).Methods("DELETE")
+	log.Fatal(http.ListenAndServe(":8000", r))
 }
 
 func serveHome(w http.ResponseWriter, r *http.Request) {
@@ -60,7 +70,6 @@ func getOneCourse(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	json.NewEncoder(w).Encode("No course found with given id")
-	return
 
 }
 func addOneCourse(w http.ResponseWriter, r *http.Request) {
@@ -80,6 +89,15 @@ func addOneCourse(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode("Course list is empty")
 	}
 
+	//check only if title is duplicate
+	for _, course := range mycourses {
+		if course.CourseName == newCourse.CourseName {
+			json.NewEncoder(w).Encode("Course already exists")
+			return
+		}
+
+	}
+
 	//generate unique id for every course
 
 	rand.Seed(time.Now().UnixNano())
@@ -87,4 +105,66 @@ func addOneCourse(w http.ResponseWriter, r *http.Request) {
 	mycourses = append(mycourses, newCourse)
 	json.NewEncoder(w).Encode(newCourse)
 	return
+}
+
+func updateOneCourse(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Update one course")
+	w.Header().Set("Content-Type", "application/json")
+
+	//grab the id of the course to be updated
+	params := mux.Vars(r)
+
+	for index, course := range mycourses {
+		if course.CourseId == params["id"] {
+			mycourses = append(mycourses[:index], mycourses[index+1:]...)
+			var updatedCourse Course
+			_ = json.NewDecoder(r.Body).Decode(&updatedCourse)
+			mycourses = append(mycourses, updatedCourse)
+			json.NewEncoder(w).Encode(updatedCourse)
+			return
+		}
+	}
+
+	//if no id is found
+	json.NewEncoder(w).Encode("Found no course with the given Id...")
+}
+
+func deleteOneCourse(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Deleting a course")
+	w.Header().Set("Content-Type", "application/json")
+
+	// Grab the id of the course
+	params := mux.Vars(r)
+	courseID := params["id"]
+
+	// Check if the confirmation parameter is present
+	confirmDelete := r.URL.Query().Get("confirm")
+
+	if confirmDelete != "true" {
+		// If not confirmed, send a confirmation request
+		json.NewEncoder(w).Encode(map[string]string{
+			"message":  "Are you sure you want to delete this course? Add '?confirm=true' to the URL to confirm.",
+			"courseID": courseID,
+		})
+		return
+	}
+
+	// If confirmed, proceed with deletion
+	for index, course := range mycourses {
+		if course.CourseId == courseID {
+			mycourses = append(mycourses[:index], mycourses[index+1:]...)
+			json.NewEncoder(w).Encode(map[string]string{
+				"message":  "Course deleted successfully",
+				"courseID": courseID,
+			})
+			return
+		}
+	}
+
+	// If no course found
+	w.WriteHeader(http.StatusNotFound)
+	json.NewEncoder(w).Encode(map[string]string{
+		"message":  "No course found with the given id",
+		"courseID": courseID,
+	})
 }
