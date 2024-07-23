@@ -13,7 +13,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"k8s.io/apiserver/pkg/server/mux"
 )
 
 const mongoUrl = "mongodb+srv://aviralasthana0704:Aviral123@cluster0.0iuvkbz.mongodb.net/"
@@ -118,7 +117,7 @@ func CreateMovie(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Allow-Control-Allow-Methods", "POST")
 
 	var movie model.Netflix
-	_ = json.NewDecoder(r).Decode(&movie)
+	_ = json.NewDecoder(r.Body).Decode(&movie)
 	insertOneMovie(movie)
 	json.NewEncoder(w).Encode(movie)
 }

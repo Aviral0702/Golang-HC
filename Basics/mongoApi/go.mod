@@ -3,6 +3,7 @@ module github.com/Aviral0702/mongoApi
 go 1.22.5
 
 require (
+	github.com/go-logr/logr v1.4.1 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/gorilla/mux v1.8.1 // indirect
 	github.com/klauspost/compress v1.13.6 // indirect
@@ -15,4 +16,7 @@ require (
 	golang.org/x/crypto v0.22.0 // indirect
 	golang.org/x/sync v0.7.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
+	k8s.io/apimachinery v0.30.3 // indirect
+	k8s.io/apiserver v0.30.3 // indirect
+	k8s.io/klog/v2 v2.120.1 // indirect
 )
