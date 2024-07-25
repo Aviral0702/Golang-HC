@@ -3,8 +3,10 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"time"
+	"sync"
 )
+
+var wg sync.WaitGroup //this is a steroid version of time.millisecond
 
 func main() {
 	// go greeter("hello")
@@ -17,9 +19,12 @@ func main() {
 	}
 
 	for _, web := range websiteList {
-		time.Sleep(3 * time.Millisecond) //this doesn't work as expected I tried
+		// time.Sleep(3 * time.Millisecond) //this doesn't work as expected I tried
 		go getStatusCode(web)
+		wg.Add(1)
 	}
+
+	wg.Wait()
 }
 
 // func greeter(msg string) {
@@ -30,6 +35,7 @@ func main() {
 // }
 
 func getStatusCode(endpoint string) {
+	defer wg.Done()
 	res, err := http.Get(endpoint)
 
 	if err != nil {
